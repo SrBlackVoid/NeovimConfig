@@ -19,4 +19,4 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.keymap.set('n', '<leader>h', vim.cmd.noh, { desc = 'Clear [H]ighlighting'})
 
 --Exit terminal mode with Esc
--- vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'Exit Terminal with Esc' } )
+vim.keymap.set('t', '<C-\\>', '<C-\\><C-n>', { desc = 'Exit Terminal with Esc' } )

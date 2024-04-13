@@ -70,7 +70,9 @@ return require('packer').startup(function(use)
 		  'nvim-telescope/telescope.nvim',
 		  'nvim-lua/plenary.nvim',
 	  },
-	  config = true,
+	  config = function()
+		  require("toggleterm-manager").setup()
+	  end
   }
 
   --AutoPairs
@@ -110,5 +112,15 @@ return require('packer').startup(function(use)
 		  require("telescope").load_extension("projects")
 	  end,
   })
+
+  --Indent markers
+  use 'lukas-reineke/indent-blankline.nvim'
+
+
+  --Telescope-diff
+  use {
+    'jemag/telescope-diff.nvim',
+	requires = {'nvim-telescope/telescope.nvim' }
+  }
 
 end)

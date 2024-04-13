@@ -20,3 +20,4 @@ require("toggleterm").setup{
 }
 
 vim.keymap.set('n','<leader>t',':Telescope toggleterm_manager<CR>', { desc = "[T]oggleterm Manager"})
+vim.keymap.set('v','<leader>r',':ToggleTermSendVisualLines<CR>', { desc = "[R]un selection" })

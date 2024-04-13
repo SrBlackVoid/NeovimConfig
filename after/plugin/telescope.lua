@@ -7,11 +7,15 @@ vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]re
 vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps'})
 vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers'})
 vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics'})
+vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp'})
+vim.keymap.set('n', '<leader>st', builtin.treesitter, { desc = '[S]earch [T]reesitter'})
 
 vim.keymap.set('n', '<leader>sn', function()
 	builtin.find_files { cwd = vim.fn.stdpath 'config' }
 end, { desc = '[S]earch [N]eovim Files'}
 )
+
+vim.keymap.set('n', '<leader>Gs', builtin.git_status, { desc = '[G]it [S]tatus'})
 
 --[[ vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),

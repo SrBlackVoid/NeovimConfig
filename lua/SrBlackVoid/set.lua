@@ -21,7 +21,7 @@ vim.opt.cursorline = true
 
 -- Set tab spacing
 vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4 
+vim.opt.shiftwidth = 4
 
 -- Minimal # of screen lines to keep above/below the cursor
 vim.opt.scrolloff = 10
@@ -38,8 +38,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
---[[ --Set default terminal to PowerShell
+--Set default terminal to PowerShell
 vim.g.terminal_emulator='pwsh'
 
 --Set shell to PowerShell 7
-vim.o.shell = 'pwsh' ]]
+vim.o.shell = 'pwsh'

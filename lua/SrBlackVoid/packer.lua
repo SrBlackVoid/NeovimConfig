@@ -70,7 +70,9 @@ return require('packer').startup(function(use)
 		  'nvim-telescope/telescope.nvim',
 		  'nvim-lua/plenary.nvim',
 	  },
-	  config = true,
+	  config = function()
+		  require("toggleterm-manager").setup()
+	  end
   }
 
   --AutoPairs
@@ -103,15 +105,22 @@ return require('packer').startup(function(use)
 	  requires = { 'nvim-tree/nvim-web-devicons', opt = true }
   }
 
- --[[use {
-	 "nvim-neo-tree/neo-tree.nvim",
-	 branch = "v3.x",
-	 requires = { 
-		 "nvim-lua/plenary.nvim",
-		 "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-		 "muniftanjim/nui.nvim",
-		 -- "3rd/image.nvim", -- optional image support in preview window: see `# preview mode` for more information
-	 }
+  --Project Manager
+  use ({
+	  "ahmedkhalf/project.nvim",
+	  config = function()
+		  require("telescope").load_extension("projects")
+	  end,
+  })
+
+  --Indent markers
+  use 'lukas-reineke/indent-blankline.nvim'
+
+
+  --Telescope-diff
+  use {
+    'jemag/telescope-diff.nvim',
+	requires = {'nvim-telescope/telescope.nvim' }
   }
-  ]]--
+
 end)

@@ -105,12 +105,20 @@ return {
 				['<C-k>'] = cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Select})
             },
             sources = cmp.config.sources({
+				{ name = "copilot" },
                 { name = 'nvim_lsp' },
                 { name = 'luasnip' },
             }, {
                 { name = 'buffer' },
             })
         })
+
+		cmp.setup.cmdline({ '/', '?' }, {
+			mapping = cmp.mapping.preset.cmdline(),
+			sources = {
+				{ name = 'buffer' }
+			},
+		})
 
 		vim.api.nvim_create_autocmd('LspAttach', {
 				group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),

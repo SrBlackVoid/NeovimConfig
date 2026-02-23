@@ -29,6 +29,11 @@ vim.opt.scrolloff = 10
 -- Set highlight on search
 vim.opt.hlsearch = true
 
+-- Show inline diagnostics
+vim.diagnostic.config({
+	virtual_text = true,
+})
+
 -- Highlight when yanking text
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',

@@ -1,19 +1,36 @@
 return {
     'neovim/nvim-lspconfig',
     dependencies = {
-        "williamboman/mason.nvim",
+        {
+            "williamboman/mason.nvim",
+            build = ":MasonUpdate"
+        },
         "williamboman/mason-lspconfig.nvim",
         "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/cmp-buffer",
-        "hrsh7th/cmp-path",
-        "hrsh7th/cmp-cmdline",
-        "hrsh7th/nvim-cmp",
-        "L3MON4D3/LuaSnip",
-        "saadparwaiz1/cmp_luasnip",
-        "rafamadriz/friendly-snippets",
+        {
+            "hrsh7th/nvim-cmp",
+            event = "InsertEnter", -- Only load when entering insert mode
+            dependencies = {
+                "hrsh7th/cmp-buffer",
+                "hrsh7th/cmp-path",
+                "hrsh7th/cmp-cmdline",
+                {
+                    "L3MON4D3/LuaSnip",
+                    build = "make install_jsregexp",
+                    dependencies = {
+                        {
+                            "rafamadriz/friendly-snippets",
+                            config = function()
+                                require("luasnip.loaders.from_vscode").lazy_load()
+                            end,
+                        },
+                    },
+                },
+                "saadparwaiz1/cmp_luasnip",
+            },
+        },
     },
-
-	--WARN: Something is cranking load times, may need some optimizing
+	event = { "BufReadPre", "BufNewFile" }, --Lazy load on buffer events
 
     config = function()
         local cmp_lsp = require('cmp_nvim_lsp')
@@ -28,97 +45,103 @@ return {
             ensure_installed = {},
             handlers = {
                 function(server_name)
-                    require('lspconfig')[server_name].setup {
+                    vim.lsp.config[server_name] = {
+                        cmd = require('lspconfig.configs')[server_name].default_config.cmd,
+                        root_markers = require('lspconfig.configs')[server_name].default_config.root_dir,
                         capabilities = capabilities
                     }
+                    vim.lsp.enable(server_name)
                 end,
 
                 powershell_es = function()
-                    local lspconfig = require('lspconfig')
-                    lspconfig.powershell_es.setup({
+                    vim.lsp.config.powershell_es = {
+                        cmd = require('lspconfig.configs').powershell_es.default_config.cmd,
+                        root_markers = require('lspconfig.configs').powershell_es.default_config.root_dir,
+                        capabilities = capabilities,
                         settings = {powershell = { codeFormatting = { Preset = 'OTBS'} } }
-                    })
+                    }
+                    vim.lsp.enable('powershell_es')
                 end,
 
-				require('lspconfig').lua_ls.setup {
-					settings = {
-						Lua = {}
-					},
-					on_init = function(client)
-						local path = client.workspace_folders[1].name
-						if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
-							return
-						end
+                lua_ls = function()
+                    vim.lsp.config.lua_ls = {
+                        cmd = require('lspconfig.configs').lua_ls.default_config.cmd,
+                        root_markers = require('lspconfig.configs').lua_ls.default_config.root_dir,
+                        capabilities = capabilities,
+                        settings = {
+                            Lua = {}
+                        },
+                        on_init = function(client)
+                            local path = client.workspace_folders[1].name
+                            if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
+                                return
+                            end
 
-						client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-							runtime {
-								-- Tell the language server which version of Lua you're using
-								-- (most likely JuaJIT in the case of Neovim)
-								version = 'LuaJIT'
-							},
-							-- Make the server aware of Neovim runtime files
-							workspace = {
-								checkThirdParty = false,
-								library = {
-									vim.env.VIMRUNTIME
-									-- Depending on the usage, you might want to add additional paths here.
-									-- "${3rd}/luv/library",
-									-- "S{3rd}/busted/library",
-								}
-								-- or pull in all of 'runtiomepath'. NOTE this is a lot slower
-								-- library = vim.api.nvim_get_runtime_file("", true)
-							}
-						})
-					end,
-				}
+                            client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+                                runtime = {
+                                    -- Tell the language server which version of Lua you're using
+                                    -- (most likely LuaJIT in the case of Neovim)
+                                    version = 'LuaJIT'
+                                },
+                                -- Make the server aware of Neovim runtime files
+                                workspace = {
+                                    checkThirdParty = false,
+                                    library = {
+                                        vim.env.VIMRUNTIME
+                                        -- Depending on the usage, you might want to add additional paths here.
+                                        -- "${3rd}/luv/library",
+                                        -- "${3rd}/busted/library",
+                                    }
+                                    -- or pull in all of 'runtimepath'. NOTE this is a lot slower
+                                    -- library = vim.api.nvim_get_runtime_file("", true)
+                                }
+                            })
+                        end,
+                    }
+                    vim.lsp.enable('lua_ls')
+				end
             }
         })
 
-        require("luasnip.loaders.from_vscode").lazy_load()
+        -- Setup completion only when nvim-cmp is loaded
+        local function setup_completion()
+            local cmp = require('cmp')
 
-        local cmp = require('cmp')
-        local cmp_select = { behavior = cmp.SelectBehavior.Replace }
-
-        cmp.setup({
-            snippet = {
-                expand = function(args)
-                    require('luasnip').lsp_expand(args.body)
-                end,
-            },
-            mapping = {
-				-- `Enter` key to confirm completion
-				--['<CR>'] = cmp.mapping.confirm({select = false}),
-
-				-- Ctrl+Space to trigger completion menu
-				['<C-Space>'] = cmp.mapping.complete(),
-
-				-- Navigate between snippet placeholder
-				-- ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-				-- ['<C-b>'] = cmp_action.luasnip_jump_backward(),
-
-				-- Remap Shift-Tab
-				['<S-Tab>'] = nil,
-
-				-- Navigate through auto-completion
-				['<C-l>'] = cmp.mapping.confirm({select = false}),
-				['<C-j>'] = cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Select}),
-				['<C-k>'] = cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Select})
-            },
-            sources = cmp.config.sources({
-				{ name = "copilot" },
-                { name = 'nvim_lsp' },
-                { name = 'luasnip' },
-            }, {
-                { name = 'buffer' },
+            cmp.setup({
+                snippet = {
+                    expand = function(args)
+                        require('luasnip').lsp_expand(args.body)
+                    end,
+                },
+                mapping = {
+                    ['<C-Space>'] = cmp.mapping.complete(),
+                    ['<S-Tab>'] = nil,
+                    ['<C-l>'] = cmp.mapping.confirm({select = false}),
+                    ['<C-j>'] = cmp.mapping.select_next_item({behavior = cmp.SelectBehavior.Select}),
+                    ['<C-k>'] = cmp.mapping.select_prev_item({behavior = cmp.SelectBehavior.Select})
+                },
+                sources = cmp.config.sources({
+                    { name = "copilot" },
+                    { name = 'nvim_lsp' },
+                    { name = 'luasnip' },
+                }, {
+                    { name = 'buffer' },
+                })
             })
-        })
 
-		cmp.setup.cmdline({ '/', '?' }, {
-			mapping = cmp.mapping.preset.cmdline(),
-			sources = {
-				{ name = 'buffer' }
-			},
-		})
+            cmp.setup.cmdline({ '/', '?' }, {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = {
+                    { name = 'buffer' }
+                },
+            })
+        end
+
+        -- Defer completion setup
+        vim.api.nvim_create_autocmd("InsertEnter", {
+            once = true,
+            callback = setup_completion
+        })
 
 		vim.api.nvim_create_autocmd('LspAttach', {
 				group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),

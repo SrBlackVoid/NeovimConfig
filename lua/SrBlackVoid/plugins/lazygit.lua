@@ -1,7 +1,7 @@
 return {
 	{
 		"kdheepak/lazygit.nvim",
-		lazy = false,
+		dependencies = { "nvim-lua/plenary.nvim" },
 		cmd = {
 			"LazyGit",
 			"LazyGitConfig",
@@ -13,10 +13,6 @@ return {
 			{ '<leader>Gg', ':LazyGit<CR>', desc = "Lazy[G]it" },
 			{ '<leader>Gc', ':LazyGitCurrentFile<CR>', desc = "Lazy[G]it: [C]urrent File Repo" },
 			{ '<leader>Gf', ':LazyGitFilterCurrentFile<CR>', desc = "Lazy[G]it: [F]ilter by current file" }
-		},
-		dependencies = {
-			-- "nvim-telescope/telescope.nvim",
-			"nvim-lua/plenary.nvim",
 		},
 		init = function()
 			-- Set globals at startup, before plugin loads

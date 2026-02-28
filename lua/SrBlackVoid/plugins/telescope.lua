@@ -1,61 +1,54 @@
-return {
-	{
-		'nvim-telescope/telescope.nvim', tag = '0.1.8',
-		dependencies = { 'nvim-lua/plenary.nvim'},
-		opts = {
-			defaults = {
-				mappings = {
-					i = {
-						["<C-j>"] = "select_horizontal",
-						["<C-l>"] = "select_vertical",
-						["<C-X>"] = false,
-						["<C-V>"] = false,
-					},
-					n = {
-						["<C-j>"] = "select_horizontal",
-						["<C-l>"] = "select_vertical",
-						["<C-X>"] = false,
-						["<C-V>"] = false,
-					},
-				}
+return {{
+	'nvim-telescope/telescope.nvim',
+	dependencies = { 'nvim-lua/plenary.nvim'},
+	tag = '0.1.8',
+	opts = {
+		defaults = {
+			mappings = {
+				i = {
+					["<C-j>"] = "select_horizontal",
+					["<C-l>"] = "select_vertical",
+					["<C-X>"] = false,
+					["<C-V>"] = false,
+				},
+				n = {
+					["<C-j>"] = "select_horizontal",
+					["<C-l>"] = "select_vertical",
+					["<C-X>"] = false,
+					["<C-V>"] = false,
+				},
 			}
-		},
+		}
+	},
+	keys = {
+		{ '<leader>sf', ":Telescope find_files<CR>", desc = '[S]earch [F]iles' },
+		{ '<leader>sr', ":Telescope git_files<CR>", desc = '[S]earch [R]epository' },
+		{ '<leader>sg', ":Telescope live_grep<CR>", desc = '[S]earch by [G]rep' },
+		{ '<leader>sk', ":Telescope keymaps<CR>", desc = '[S]earch [K]eymaps' },
+		{ '<leader><leader>', ":Telescope buffers<CR>", desc = '[ ] Find existing buffers' },
+		{ '<leader>sh', ":Telescope help_tags<CR>", desc = '[S]earch [H]elp' },
+		{ '<leader>st', ":Telescope treesitter<CR>", desc = '[S]earch [T]reesitter' },
+		{ '<leader>wi', ":Telescope diagnostics<CR>", desc = '[W]orkplace [I]ssues' },
 
-		init = function()
-			--config = function()
-			local builtin = require('telescope.builtin')
+		{ '<leader>sn', function()
+			require("telescope.builtin").find_files { cwd = vim.fn.stdpath 'config' }
+		end, desc = '[S]earch [N]eovim Files' },
 
-			-- Telescope shortcuts
-			vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles'})
-			vim.keymap.set('n', '<leader>sr', builtin.git_files, { desc = '[S]earch [R]epository'})
-			vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep'})
-			vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps'})
-			vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers'})
-			vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp'})
-			vim.keymap.set('n', '<leader>st', builtin.treesitter, { desc = '[S]earch [T]reesitter'})
+		{ '<leader>sd', function()
+			require("telescope.builtin").find_files { cwd = 'e:\\Code Repos' }
+			-- NOTE: Fill value with root dev folder (use double backslashes)
+		end, desc = '[S]earch [D]ev Files' },
 
-			vim.keymap.set('n', '<leader>wi', builtin.diagnostics, { desc = '[W]orkplace [I]ssues'})
+		{ '<leader>Gs', ":Telescope git_status<CR>", desc = '[G]it [S]tatus' },
 
-			vim.keymap.set('n', '<leader>sn', function()
-				builtin.find_files { cwd = vim.fn.stdpath 'config' }
-			end, { desc = '[S]earch [N]eovim Files'})
+		{ '<leader>di', function()
+			require("telescope.builtin").diagnostics({bufnr = 0})
+		end, desc = '[D]ocument [I]ssues' },
 
-			vim.keymap.set('n', '<leader>sd', function()
-				builtin.find_files { cwd = '' }
-				-- NOTE: Fill value with root dev folder (use double backslashes)
-			end, { desc = '[S]earch [D]ev Files'})
+		{ '<leader>df', function()
+			require("telescope.builtin").current_buffer_fuzzy_find()
+		end, desc = '[D]ocument [F]ind' },
 
-			vim.keymap.set('n', '<leader>Gs', builtin.git_status, { desc = '[G]it [S]tatus'})
-
-			vim.keymap.set('n', '<leader>di',function()
-				builtin.diagnostics({bufnr = 0})
-			end, { desc = '[D]ocument [I]ssues'})
-
-			vim.keymap.set('n', '<leader>df', function()
-				builtin.current_buffer_fuzzy_find()
-			end, { desc = '[D]ocument [F]ind'})
-
-			vim.keymap.set('n', '<leader>gm', builtin.marks, { desc = '[G]oto [M]arks'})
-		end,
-	}
-}
+		{ '<leader>gm', ":Telescope marks<CR>", desc = '[G]oto [M]arks' }
+	},
+}}

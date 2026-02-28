@@ -1,7 +1,5 @@
-return {
-	{
-		"nvim-lualine/lualine.nvim",
-		dependencies = { 'nvim-tree/nvim-web-devicons' },
-		config = require("SrBlackVoid.themes.lualine-bubbles")
-	}
-}
+return {{
+	"nvim-lualine/lualine.nvim",
+	dependencies = { 'nvim-tree/nvim-web-devicons' },
+	config = require("SrBlackVoid.themes.lualine-bubbles")
+}}

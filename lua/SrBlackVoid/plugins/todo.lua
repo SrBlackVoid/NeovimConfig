@@ -1,12 +1,10 @@
-return {
-	{
-		"folke/todo-comments.nvim",
-		dependencies = {
-			"nvim-lua/plenary.nvim"
-		},
-		keys = {
-			{'<leader>wt',':TodoTelescope<CR>', desc = "[W]orkspace [T]oDo"}
-		},
-		opts = {},
-	}
-}
+return {{
+	"folke/todo-comments.nvim",
+	dependencies = {
+		"nvim-lua/plenary.nvim"
+	},
+	keys = {
+		{'<leader>wt',':TodoTelescope<CR>', desc = "[W]orkspace [T]oDo"}
+	},
+	opts = {},
+}}

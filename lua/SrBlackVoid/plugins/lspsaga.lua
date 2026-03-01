@@ -5,6 +5,11 @@ return {{
 		'nvim-tree/nvim-web-devicons',
 	},
 	pin  = true,
+	event = { "BufReadPre", "BufNewFile" },
+	keys = {
+		{'<leader>k', ':Lspsaga peek_definition<CR>', desc = "Peek Definition" },
+		{'<leader>O', ':Lspsaga outline<CR>', desc = "Get Scope [O]utline" },
+	},
 	opts = {
 		outline = {
 			win_width = 40,
@@ -16,8 +21,4 @@ return {{
 			enable = false
 		},
 	},
-	init = function()
-		vim.keymap.set('n','<leader>k',':Lspsaga peek_definition<CR>', {desc = "Peek Definition" })
-		vim.keymap.set('n','<leader>O',':Lspsaga outline<CR>', {desc = "Get Scope [O]utline" })
-	end
 }}

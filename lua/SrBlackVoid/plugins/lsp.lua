@@ -5,7 +5,7 @@ return {{
 	dependencies = {
 		{ "williamboman/mason.nvim", build = ":MasonUpdate" },
 		"williamboman/mason-lspconfig.nvim",
-		"hrsh7th/cmp-nvim-lsp",
+		"saghen/blink.cmp",
 	},
 
 	opts = {

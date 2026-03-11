@@ -19,6 +19,9 @@ vim.opt.splitbelow = true
 -- Show which line your cursor is on
 vim.opt.cursorline = true
 
+-- Set cursor color (used in con)
+vim.api.nvim_set_hl(0, 'Cursor', { fg = '#ff00ff', bg = '#000000' })
+
 -- Set tab spacing
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4

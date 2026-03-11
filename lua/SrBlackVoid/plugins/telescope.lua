@@ -21,7 +21,6 @@ return {{
 	},
 	keys = {
 		{ '<leader>sf', ":Telescope find_files<CR>", desc = '[S]earch [F]iles' },
-		{ '<leader>sr', ":Telescope git_files<CR>", desc = '[S]earch [R]epository' },
 		{ '<leader>sg', ":Telescope live_grep<CR>", desc = '[S]earch by [G]rep' },
 		{ '<leader>sk', ":Telescope keymaps<CR>", desc = '[S]earch [K]eymaps' },
 		{ '<leader><leader>', ":Telescope buffers<CR>", desc = '[ ] Find existing buffers' },

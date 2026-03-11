@@ -1,3 +1,5 @@
+local paths = require("SrBlackVoid.config.local")
+
 return {{
 	"ahmedkhalf/project.nvim",
 	lazy = false,
@@ -12,8 +14,7 @@ return {{
 			update_root = true
 		},
 		patterns = { ".git", ".gitignore", "_drcs", ".hg", ".bzr", ".svn", "Makefile", "package.json", ".exercism"},
-		exclude_dirs = { 'e:/Code Repos', 'c:/Users/srayb' }
-		-- NOTE: Fill with root code dirs or other unwanted folders getting picked up (use single forward slashes)
+		exclude_dirs = paths.project_exclude
 	},
 	config = function(_, opts)
 		require("project_nvim").setup(opts)

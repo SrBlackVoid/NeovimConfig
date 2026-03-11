@@ -1,3 +1,5 @@
+local paths = require("SrBlackVoid.config.local")
+
 return {{
 	'nvim-telescope/telescope.nvim',
 	dependencies = { 'nvim-lua/plenary.nvim'},
@@ -33,8 +35,7 @@ return {{
 		end, desc = '[S]earch [N]eovim Files' },
 
 		{ '<leader>sd', function()
-			require("telescope.builtin").find_files { cwd = 'e:\\Code Repos' }
-			-- NOTE: Fill value with root dev folder (use double backslashes)
+			require("telescope.builtin").find_files { cwd = paths.root_search_dirs }
 		end, desc = '[S]earch [D]ev Files' },
 
 		{ '<leader>Gs', ":Telescope git_status<CR>", desc = '[G]it [S]tatus' },

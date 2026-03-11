@@ -26,6 +26,23 @@ vim.api.nvim_set_hl(0, 'Cursor', { fg = '#ff00ff', bg = '#000000' })
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 
+-- Prompt for setting tab spacing on a specific buffer
+vim.keymap.set('n', '<leader>T', function()
+	vim.ui.input({ prompt = 'Set tab spacing: ', default = vim.bo.tabstop }, function(input)
+		if input then
+			local spaces = tonumber(input)
+			if spaces and spaces > 0 then
+				vim.bo.tabstop = spaces
+				vim.bo.shiftwidth = spaces
+				vim.bo.softtabstop = spaces
+				vim.notify('Tab spacing set to ' .. spaces, vim.log.levels.INFO)
+			else
+				vim.notify('Invalid number', vim.log.levels.ERROR)
+			end
+		end
+	end)
+end, { desc = '[T]ab spacing for current buffer' })
+
 -- Minimal # of screen lines to keep above/below the cursor
 vim.opt.scrolloff = 10
 

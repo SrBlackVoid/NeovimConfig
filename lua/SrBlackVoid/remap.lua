@@ -1,9 +1,6 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
---Open up File Explorer
-vim.keymap.set("n", "<leader>f", "<CMD>Oil<CR>", { desc = "[F]ile Explorer"})
-
 --Open up plugin manager
 vim.keymap.set("n", "<leader>l", ":Lazy<CR>", { desc = "[L]azy.nvim"})
 

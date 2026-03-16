@@ -12,6 +12,12 @@ return {{
 	---@type AutoSession.Config
 	keys = {
 		{ '<leader>Sf', ':AutoSession search<CR>', desc = "[S]ession [F]ind" },
+		{ '<leader>Ss', function()
+			local session_name = vim.fn.input("Session name: ")
+			if session_name ~= "" then
+				require('auto-session').save_session(session_name)
+			end
+		end, desc = "[S]ession [S]ave" },
 	},
 	opts = {
 		auto_restore = false,

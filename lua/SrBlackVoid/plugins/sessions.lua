@@ -2,6 +2,9 @@ local paths = require("SrBlackVoid.config.local")
 
 return {{
 	"rmagatti/auto-session",
+	dependencies = {
+		'nvim-telescope/telescope.nvim',
+	},
 	event = { "BufReadPre", "BufNewFile" },
 
 	--enables autocomplete for opts
@@ -14,6 +17,11 @@ return {{
 		auto_restore = false,
 		suppressed_dirs = paths.project_exclude,
 		git_use_branch_name = true,
+
+		---@type SessionLens
+		session_lens = {
+			picker = "telescope"
+		},
 	},
 	init = function ()
 		vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"

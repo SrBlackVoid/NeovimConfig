@@ -2,7 +2,10 @@ local paths = require("SrBlackVoid.config.local")
 
 return {{
 	'nvim-telescope/telescope.nvim',
-	dependencies = { 'nvim-lua/plenary.nvim'},
+	dependencies = {
+		'nvim-lua/plenary.nvim',
+		'nvim-telescope/telescope-ui-select.nvim'
+	},
 	opts = {
 		defaults = {
 			mappings = {
@@ -19,7 +22,12 @@ return {{
 					["<C-V>"] = false,
 				},
 			}
-		}
+		},
+		extensions = {
+			["ui-select"] = {
+				require("telescope.themes").get_dropdown {}
+			}
+		},
 	},
 	keys = {
 		{ '<leader>sf', ":Telescope find_files<CR>", desc = '[S]earch [F]iles' },
@@ -50,4 +58,9 @@ return {{
 
 		{ '<leader>gm', ":Telescope marks<CR>", desc = '[G]oto [M]arks' }
 	},
+	config = function (_,opts)
+		require("telescope").setup(opts)
+
+		require("telescope").load_extension("ui-select")
+	end
 }}

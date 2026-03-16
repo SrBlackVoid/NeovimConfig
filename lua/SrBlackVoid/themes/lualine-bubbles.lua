@@ -85,17 +85,22 @@ local c = function()
 					color_info = { fg = colors.cyan },
 				},
 			}},
-			lualine_x = {{
-				'diff',
-				-- Is it me or the symbol for modified us really weird
-				symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
-				diff_color = {
-					added = { fg = colors.green },
-					modified = { fg = colors.orange },
-					removed = { fg = colors.red },
+			lualine_x = {
+				{
+					'diff',
+					-- Is it me or the symbol for modified us really weird
+					symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
+					diff_color = {
+						added = { fg = colors.green },
+						modified = { fg = colors.orange },
+						removed = { fg = colors.red },
+					},
+					-- cond = conditions.hide_in_width,
 				},
-				-- cond = conditions.hide_in_width,
-			}},
+				function()
+					return require("auto-session.lib").current_session_name(true)
+				end,
+			},
 			lualine_y = { 'filetype', 'progress' },
 			lualine_z = {
 				{ 'location', separator = { right = '' }, left_padding = 2 },

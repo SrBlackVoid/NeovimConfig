@@ -9,6 +9,7 @@ return {{
 
 	--enables autocomplete for opts
 	---@module "auto-session"
+	---@diagnostic disable-next-line: undefined-doc-name
 	---@type AutoSession.Config
 	keys = {
 		{ '<leader>Sf', ':AutoSession search<CR>', desc = "[S]ession [F]ind" },
@@ -24,6 +25,7 @@ return {{
 		suppressed_dirs = paths.project_exclude,
 		git_use_branch_name = true,
 
+		---@diagnostic disable-next-line: undefined-doc-name
 		---@type SessionLens
 		session_lens = {
 			picker = "telescope"

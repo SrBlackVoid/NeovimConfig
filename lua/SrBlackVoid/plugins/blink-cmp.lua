@@ -6,6 +6,7 @@ return {{
 	},
 	version = '1.*',
 	---@module 'blink.cmp'
+	---@diagnostic disable-next-line: undefined-doc-name
 	---@type blink.cmp.config
 	opts = {
 		keymap = {

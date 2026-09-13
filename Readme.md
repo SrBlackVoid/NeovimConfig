@@ -1,3 +1,8 @@
+> [!NOTE]
+> This repository is no longer maintained.
+>
+>  My Neovim configuration is now managed as part of my chezmoi-backed dotfiles repository: [dotfiles](https://github.com/SrBlackVoid/dotfiles)
+
 # Neovim Configuration
 
 This repository contains my personal Neovim configuration, built to be modular, Windows-friendly, and easy to adapt into alternate profiles without having to restructure the entire setup.
